@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<testsuite name="br.com.fiap.library.BookControllerTest" tests="1" skipped="0" failures="0" errors="0" timestamp="2020-01-23T01:35:30" hostname="Fabios-MacBook-Pro.local" time="0.02">
+<testsuite name="br.com.fiap.library.BookControllerTest" tests="1" skipped="0" failures="0" errors="0" timestamp="2020-01-25T21:28:46" hostname="Fabios-MacBook-Pro.local" time="0.023">
   <properties/>
-  <testcase name="getAllTest()" classname="br.com.fiap.library.BookControllerTest" time="0.02"/>
+  <testcase name="getAllTest()" classname="br.com.fiap.library.BookControllerTest" time="0.023"/>
   <system-out><![CDATA[]]></system-out>
   <system-err><![CDATA[]]></system-err>
 </testsuite>

@@ -1,6 +1,11 @@
 package br.com.fiap.library.dto;
 
+import br.com.fiap.library.entity.Book;
+
+import java.lang.reflect.UndeclaredThrowableException;
+import java.time.ZoneOffset;
 import java.time.ZonedDateTime;
+import java.util.Date;
 
 public class BookDTO {
 
@@ -10,6 +15,8 @@ public class BookDTO {
     private String ISBN;
     private ZonedDateTime dataLancamento;
     private AutorDTO autor;
+    private ZonedDateTime dataCriacao;
+    private ZonedDateTime dataModificacao;
 
     public BookDTO(){}
 
@@ -28,6 +35,16 @@ public class BookDTO {
         this.quantidadeDePaginas = createBookDTO.getQuantidadeDePaginas();
         this.ISBN = createBookDTO.getISBN();
         this.dataLancamento = createBookDTO.getDataLancamento();
+    }
+
+    public BookDTO(Book book) {
+        this.id = book.getId();
+        this.titulo = book.getTitulo();
+        this.quantidadeDePaginas = book.getQuantidadeDePaginas();
+        this.ISBN = book.getISBN();
+        this.dataLancamento = book.getDataLancamento();
+        this.dataCriacao = ZonedDateTime.ofInstant(book.getCreatedDate().toInstant(), ZoneOffset.UTC);
+        this.dataModificacao = ZonedDateTime.ofInstant(book.getModifiedDate().toInstant(), ZoneOffset.UTC);
     }
 
     public Integer getId() {
@@ -76,5 +93,21 @@ public class BookDTO {
 
     public void setAutor(AutorDTO autor) {
         this.autor = autor;
+    }
+
+    public ZonedDateTime getDataCriacao() {
+        return dataCriacao;
+    }
+
+    public void setDataCriacao(ZonedDateTime dataCriacao) {
+        this.dataCriacao = dataCriacao;
+    }
+
+    public ZonedDateTime getDataModificacao() {
+        return dataModificacao;
+    }
+
+    public void setDataModificacao(ZonedDateTime dataModificacao) {
+        this.dataModificacao = dataModificacao;
     }
 }
