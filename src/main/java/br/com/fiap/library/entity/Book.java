@@ -1,51 +1,53 @@
-package br.com.fiap.library.dto;
+package br.com.fiap.library.entity;
 
-import br.com.fiap.library.entity.Book;
+import br.com.fiap.library.dto.CreateBookDTO;
+import org.springframework.data.annotation.CreatedDate;
+import org.springframework.data.annotation.LastModifiedDate;
+import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 
+import javax.persistence.*;
 import java.time.ZonedDateTime;
 import java.util.Date;
 
-public class BookDTO {
+@Entity
+@Table(name = "TB_BOOK")
+@EntityListeners(AuditingEntityListener.class)
+public class Book {
 
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
+
+    @Column
     private String titulo;
+
+    @Column
     private Integer quantidadeDePaginas;
+
+    @Column
     private String ISBN;
+
+    @Column
     private ZonedDateTime dataLancamento;
-    private AutorDTO autor;
+
+    @ManyToOne
+    private Autor autor;
+
+    @Column
+    @CreatedDate
     private Date dataCriacao;
+
+    @Column
+    @LastModifiedDate
     private Date dataAtualizacao;
 
-    public BookDTO(){}
+    public Book(){}
 
-    public BookDTO(Integer id, String titulo, Integer quantidadeDePaginas, String ISBN, ZonedDateTime dataLancamento, AutorDTO autor) {
-        this.id = id;
-        this.titulo = titulo;
-        this.quantidadeDePaginas = quantidadeDePaginas;
-        this.ISBN = ISBN;
-        this.dataLancamento = dataLancamento;
-        this.autor = autor;
-    }
-
-    public BookDTO(CreateBookDTO createBookDTO, Integer id) {
-        this.id = id;
+    public Book(CreateBookDTO createBookDTO) {
         this.titulo = createBookDTO.getTitulo();
         this.quantidadeDePaginas = createBookDTO.getQuantidadeDePaginas();
         this.ISBN = createBookDTO.getISBN();
         this.dataLancamento = createBookDTO.getDataLancamento();
-    }
-
-    public BookDTO(Book book) {
-        this.id = book.getId();
-        this.titulo = book.getTitulo();
-        this.quantidadeDePaginas = book.getQuantidadeDePaginas();
-        this.ISBN = book.getISBN();
-        this.dataLancamento = book.getDataLancamento();
-        if(book.getAutor() != null){
-            this.autor = new AutorDTO(book.getAutor());
-        }
-        this.dataCriacao = book.getDataCriacao();
-        this.dataAtualizacao = book.getDataAtualizacao();
     }
 
     public Integer getId() {
@@ -88,11 +90,11 @@ public class BookDTO {
         this.dataLancamento = dataLancamento;
     }
 
-    public AutorDTO getAutor() {
+    public Autor getAutor() {
         return autor;
     }
 
-    public void setAutor(AutorDTO autor) {
+    public void setAutor(Autor autor) {
         this.autor = autor;
     }
 
