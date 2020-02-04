@@ -7,3 +7,7 @@ spring:
     hibernate:
       ddl-auto: validate
     show-sql: true
+
+jwt:
+  secret: s3cr3t1
+  expire: 60
