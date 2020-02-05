@@ -7,8 +7,3 @@ spring:
     hibernate:
       ddl-auto: validate
     show-sql: true
-  security:
-    user:
-      name: usuario
-      password: senha
-      roles: ADMIN
