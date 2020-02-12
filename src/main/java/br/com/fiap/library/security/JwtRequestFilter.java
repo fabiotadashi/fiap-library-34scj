@@ -19,7 +19,7 @@ public class JwtRequestFilter extends OncePerRequestFilter {
     private final JwtTokenUtil jwtTokenUtil;
     private final JwtUserService jwtUserService;
 
-    public JwtRequestFilter(JwtTokenUtil jwtTokenUtil, JwtUserService jwtUserService){
+    public JwtRequestFilter(JwtTokenUtil jwtTokenUtil, JwtUserService jwtUserService) {
         this.jwtTokenUtil = jwtTokenUtil;
         this.jwtUserService = jwtUserService;
     }
@@ -30,24 +30,24 @@ public class JwtRequestFilter extends OncePerRequestFilter {
                                     FilterChain filterChain) throws ServletException, IOException {
         String requestToken = request.getHeader("Authorization");
 
-        if(requestToken == null || !requestToken.startsWith("Bearer ")){
-            throw new IllegalArgumentException("Invalid Token");
+        if (requestToken != null && requestToken.startsWith("Bearer ")) {
+
+            String username = jwtTokenUtil.getUsername(requestToken);
+
+            if (username != null) {
+                UserDetails userDetails = jwtUserService.loadUserByUsername(username);
+
+                UsernamePasswordAuthenticationToken authenticationToken = new UsernamePasswordAuthenticationToken(userDetails,
+                        null,
+                        userDetails.getAuthorities());
+
+                authenticationToken.setDetails(new WebAuthenticationDetailsSource().buildDetails(request));
+
+                SecurityContextHolder.getContext().setAuthentication(authenticationToken);
+            }
+        }else{
+            logger.info("Invalid token");
         }
-
-        String username = jwtTokenUtil.getUsername(requestToken);
-
-        if(username != null){
-            UserDetails userDetails = jwtUserService.loadUserByUsername(username);
-
-            UsernamePasswordAuthenticationToken authenticationToken = new UsernamePasswordAuthenticationToken(userDetails,
-                    null,
-                    userDetails.getAuthorities());
-
-            authenticationToken.setDetails(new WebAuthenticationDetailsSource().buildDetails(request));
-
-            SecurityContextHolder.getContext().setAuthentication(authenticationToken);
-        }
-
         filterChain.doFilter(request, response);
     }
 }
